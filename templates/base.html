@@ -4,20 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pet Adoption</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <nav>
-        <a href="{{ url_for('index') }}">Home</a>
-        {% if current_user.is_authenticated %}
-            <a href="{{ url_for('logout') }}">Logout</a>
-        {% else %}
-            <a href="{{ url_for('register') }}">Register</a>
-            <a href="{{ url_for('login') }}">Login</a>
-        {% endif %}
+    <div class="blob blob-1"></div>
+    <div class="blob blob-2"></div>
+    
+    <nav class="glass-nav">
+        <div class="nav-brand">
+            <a href="{{ url_for('home') }}">🐾 PetAdopt</a>
+        </div>
+        <div class="nav-links">
+            <a href="{{ url_for('index') }}" class="nav-item">Dashboard</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('my_pets') }}" class="nav-item">My Pets</a>
+                <a href="{{ url_for('logout') }}" class="btn-primary btn-sm">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="nav-item">Login</a>
+                <a href="{{ url_for('register') }}" class="btn-primary btn-sm">Register</a>
+            {% endif %}
+        </div>
     </nav>
-    <div class="container">
-        {% block content %}{% endblock %}
+    
+    <div class="flash-messages-container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash-message glass-card {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     </div>
+
+    <main class="container">
+        {% block content %}{% endblock %}
+    </main>
 </body>
-</html> 
+</html>

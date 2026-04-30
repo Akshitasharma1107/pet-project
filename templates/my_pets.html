@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="dashboard-header">
+    <div class="dashboard-title">
+        <h1>My Adopted Pets</h1>
+        <p>A list of the wonderful companions you've given a home to.</p>
+    </div>
+</div>
+
+{% if pets %}
+<div class="pet-grid">
+    {% for pet in pets %}
+    <div class="pet-card glass-card">
+        <div class="pet-image-container">
+            <img src="{{ url_for('static', filename=pet.image_url) }}" alt="{{ pet.name }}">
+            <div class="adopted-badge" style="background: var(--accent-primary);">Yours!</div>
+        </div>
+        <div class="pet-info">
+            <h3>{{ pet.name }}</h3>
+            <div class="pet-details">
+                <span class="badge">Breed: {{ pet.breed }}</span>
+                <span class="badge">Age: {{ pet.age }}</span>
+            </div>
+            <button class="btn-secondary btn-full" disabled>Happy at home</button>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="no-pets glass-card" style="text-align: center; padding: 4rem;">
+    <h2 style="margin-bottom: 1rem;">You haven't adopted any pets yet.</h2>
+    <p style="color: var(--text-secondary); margin-bottom: 2rem;">There are many wonderful animals looking for a loving home.</p>
+    <a href="{{ url_for('index') }}" class="btn-primary">Find a Pet</a>
+</div>
+{% endif %}
+
+{% endblock %}
